@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Financial Statements of a Company — Notes</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,300&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<style>
+:root[data-theme="dark"] {
+  --bg:#0B0D14;--surface:#12151F;--surface2:#191D2E;--border:rgba(255,255,255,0.07);
+  --text:#E4E7F0;--muted:#7A8599;--accent:#F5A623;--adim:rgba(245,166,35,0.12);
+  --def:#60A5FA;--defbg:rgba(96,165,250,0.1);
+  --ex:#34D399;--exbg:rgba(52,211,153,0.1);
+  --imp:#F87171;--impbg:rgba(248,113,113,0.1);
+  --frm:#C084FC;--frmbg:rgba(192,132,252,0.1);
+  --nte:#FBBF24;--ntebg:rgba(251,191,36,0.1);
+  --sw:260px;
+}
+:root[data-theme="light"] {
+  --bg:#F2EFE8;--surface:#FAFAFA;--surface2:#EDEAE3;--border:rgba(0,0,0,0.09);
+  --text:#1C1E28;--muted:#6B7280;--accent:#C47A0F;--adim:rgba(196,122,15,0.1);
+  --def:#2563EB;--defbg:rgba(37,99,235,0.08);
+  --ex:#059669;--exbg:rgba(5,150,105,0.08);
+  --imp:#DC2626;--impbg:rgba(220,38,38,0.08);
+  --frm:#7C3AED;--frmbg:rgba(124,58,237,0.08);
+  --nte:#B45309;--ntebg:rgba(180,83,9,0.08);
+  --sw:260px;
+}
+:root[data-accent="blue"]{--accent:#60A5FA;--adim:rgba(96,165,250,0.12);}
+:root[data-accent="green"]{--accent:#34D399;--adim:rgba(52,211,153,0.12);}
+:root[data-accent="purple"]{--accent:#C084FC;--adim:rgba(192,132,252,0.12);}
+:root[data-accent="rose"]{--accent:#FB7185;--adim:rgba(251,113,133,0.12);}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.75;transition:background .3s,color .3s;}
+
+#pbar{position:fixed;top:0;left:0;height:2px;background:var(--accent);width:0%;z-index:1000;transition:width .1s;}
+
+.app{display:flex;min-height:100vh;}
+
+/* SIDEBAR */
+.sidebar{width:var(--sw);background:var(--surface);border-right:1px solid var(--border);position:fixed;top:0;left:0;height:100vh;overflow-y:auto;z-index:100;display:flex;flex-direction:column;transition:transform .3s;}
+.sb-head{padding:1.4rem 1.2rem .9rem;border-bottom:1px solid var(--border);}
+.sb-title{font-family:'Fraunces',serif;font-size:1.05rem;line-height:1.3;color:var(--text);}
+.sb-sub{font-size:.68rem;color:var(--muted);margin-top:.25rem;letter-spacing:.08em;text-transform:uppercase;}
+.toc{padding:.6rem 0;flex:1;}
+.ti{display:flex;align-items:center;gap:.55rem;padding:.42rem 1.2rem;font-size:.78rem;color:var(--muted);cursor:pointer;text-decoration:none;border-left:2px solid transparent;transition:all .15s;}
+.ti:hover{color:var(--text);background:var(--surface2);}
+.ti.active{color:var(--accent);border-left-color:var(--accent);background:var(--adim);}
+.tn{font-size:.63rem;min-width:16px;opacity:.55;}
+.sb-foot{padding:.9rem 1.2rem;border-top:1px solid var(--border);}
+.pl-label{display:flex;justify-content:space-between;font-size:.7rem;color:var(--muted);margin-bottom:.35rem;}
+.pl-track{height:3px;background:var(--surface2);border-radius:2px;overflow:hidden;}
+.pl-fill{height:100%;background:var(--accent);width:0%;transition:width .3s;border-radius:2px;}
+
+/* MAIN */
+.main{margin-left:var(--sw);flex:1;min-width:0;}
+
+/* TOPBAR */
+.topbar{position:sticky;top:0;background:var(--surface);border-bottom:1px solid var(--border);padding:.65rem 1.75rem;display:flex;align-items:center;justify-content:space-between;z-index:90;backdrop-filter:blur(12px);}
+.tb-title{font-size:.75rem;color:var(--muted);letter-spacing:.04em;}
+.tb-right{display:flex;align-items:center;gap:.45rem;flex-wrap:wrap;}
+
+.search-wrap{position:relative;}
+.s-icon{position:absolute;left:.6rem;top:50%;transform:translateY(-50%);color:var(--muted);font-size:.7rem;pointer-events:none;}
+.search{background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:.38rem .75rem .38rem 1.9rem;border-radius:6px;font-size:.76rem;font-family:'DM Sans',sans-serif;width:175px;outline:none;transition:border-color .2s,width .2s;}
+.search:focus{border-color:var(--accent);width:210px;}
+.search::placeholder{color:var(--muted);}
+
+.btn{padding:.38rem .7rem;border-radius:6px;border:1px solid var(--border);background:var(--surface2);color:var(--muted);cursor:pointer;font-size:.74rem;font-family:'DM Sans',sans-serif;transition:all .15s;display:flex;align-items:center;gap:.3rem;white-space:nowrap;}
+.btn:hover{color:var(--text);}
+.fbtns{display:flex;gap:.2rem;}
+.fbtn{padding:.35rem .55rem;border-radius:5px;border:1px solid var(--border);background:var(--surface2);color:var(--muted);cursor:pointer;font-size:.76rem;font-family:'DM Sans',sans-serif;transition:all .15s;}
+.fbtn:hover{color:var(--text);}
+.arow{display:flex;gap:.3rem;align-items:center;}
+.adot{width:13px;height:13px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:border-color .15s;}
+.adot:hover,.adot.on{border-color:var(--text);}
+.adot[data-a="amber"]{background:#F5A623;}
+.adot[data-a="blue"]{background:#60A5FA;}
+.adot[data-a="green"]{background:#34D399;}
+.adot[data-a="purple"]{background:#C084FC;}
+.adot[data-a="rose"]{background:#FB7185;}
+
+/* CONTENT */
+.content{max-width:860px;margin:0 auto;padding:2.5rem 2rem 6rem;}
+
+.hero{margin-bottom:2.75rem;padding-bottom:2rem;border-bottom:1px solid var(--border);}
+.hero-tag{display:inline-flex;align-items:center;gap:.35rem;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);background:var(--adim);padding:.28rem .7rem;border-radius:100px;margin-bottom:.85rem;}
+.hero-title{font-family:'Fraunces',serif;font-size:2.5rem;line-height:1.15;margin-bottom:.7rem;}
+.hero-meta{display:flex;gap:1.5rem;font-size:.78rem;color:var(--muted);flex-wrap:wrap;}
+
+/* SECTIONS */
+.section{margin-bottom:2.25rem;scroll-margin-top:75px;}
+.sh{display:flex;align-items:center;gap:.7rem;margin-bottom:1.2rem;cursor:pointer;user-select:none;}
+.sn{font-size:.67rem;color:var(--accent);font-weight:600;letter-spacing:.1em;min-width:28px;}
+.st{font-family:'Fraunces',serif;font-size:1.42rem;color:var(--text);flex:1;}
+.cbtn{color:var(--muted);font-size:.75rem;transition:transform .25s;background:none;border:none;cursor:pointer;padding:.2rem .4rem;}
+.sb{overflow:hidden;transition:max-height .35s ease;}
+.sb.shut{max-height:0!important;}
+
+.sub{margin-bottom:1.4rem;}
+.subt{font-size:.97rem;font-weight:600;color:var(--text);margin-bottom:.7rem;display:flex;align-items:center;gap:.5rem;}
+.subt::before{content:'';width:3px;height:15px;background:var(--accent);border-radius:2px;flex-shrink:0;}
+
+p{margin-bottom:.7rem;color:var(--text);font-size:.91rem;}
+
+/* BOXES */
+.box{border-radius:8px;padding:.95rem 1.1rem;margin:.9rem 0;border-left:3px solid;font-size:.87rem;}
+.bh{font-weight:600;font-size:.7rem;letter-spacing:.07em;text-transform:uppercase;margin-bottom:.45rem;display:flex;align-items:center;gap:.35rem;}
+.box.def{background:var(--defbg);border-color:var(--def);}
+.box.def .bh{color:var(--def);}
+.box.ex{background:var(--exbg);border-color:var(--ex);}
+.box.ex .bh{color:var(--ex);}
+.box.imp{background:var(--impbg);border-color:var(--imp);}
+.box.imp .bh{color:var(--imp);}
+.box.frm{background:var(--frmbg);border-color:var(--frm);}
+.box.frm .bh{color:var(--frm);}
+.box.nte{background:var(--ntebg);border-color:var(--nte);}
+.box.nte .bh{color:var(--nte);}
+
+/* TABLES */
+.tw{overflow-x:auto;margin:.9rem 0;border-radius:8px;border:1px solid var(--border);}
+table{width:100%;border-collapse:collapse;font-size:.84rem;}
+thead tr{background:var(--surface2);}
+th{padding:.6rem 1rem;text-align:left;font-size:.7rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--border);}
+td{padding:.58rem 1rem;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.55;}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:var(--surface2);}
+
+/* FORMULA BLOCK */
+.fblock{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:1rem 1.2rem;font-family:'Courier New',monospace;font-size:.83rem;margin:.9rem 0;line-height:2.1;color:var(--text);overflow-x:auto;}
+.fblock .hl{color:var(--accent);font-weight:700;}
+.fblock .dm{color:var(--muted);}
+.fblock .rs{color:var(--ex);font-weight:700;border-top:1px solid var(--border);margin-top:.5rem;padding-top:.5rem;}
+
+/* GRID */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:.9rem 0;}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;margin:.9rem 0;}
+.card{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:.95rem 1.1rem;}
+.card-t{font-size:.73rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin-bottom:.55rem;}
+
+/* TREE */
+.tree{font-size:.81rem;font-family:'Courier New',monospace;background:var(--surface2);border:1px solid var(--border);padding:1.2rem 1.4rem;border-radius:8px;line-height:2;margin:.9rem 0;overflow-x:auto;}
+.tree .br{color:var(--muted);}
+.tree .hd{color:var(--accent);font-weight:700;}
+.tree .h1{color:var(--def);}
+.tree .h2{color:var(--ex);}
+
+/* DTA/DTL */
+.dtg{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:.9rem 0;}
+.dtc{border-radius:8px;padding:1rem 1.1rem;border:1px solid;}
+.dtc.liab{background:var(--impbg);border-color:var(--imp);}
+.dtc.asset{background:var(--exbg);border-color:var(--ex);}
+.dtbadge{font-size:.7rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;margin-bottom:.5rem;}
+.dtc.liab .dtbadge{color:var(--imp);}
+.dtc.asset .dtbadge{color:var(--ex);}
+.dtc p{font-size:.82rem;margin-bottom:.35rem;}
+.dtex{margin-top:.6rem;font-size:.77rem;font-family:'Courier New',monospace;background:var(--surface);border-radius:6px;padding:.55rem .75rem;line-height:1.9;}
+
+/* BS FORMAT */
+.bsgrid{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--border);border-radius:8px;overflow:hidden;font-size:.81rem;margin:.9rem 0;}
+.bscol{padding:1.1rem;}
+.bscol:first-child{border-right:1px solid var(--border);}
+.bsct{font-size:.68rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--accent);margin-bottom:.7rem;padding-bottom:.5rem;border-bottom:1px solid var(--border);}
+.bsh{font-weight:600;color:var(--def);margin:.55rem 0 .2rem;}
+.bsi{padding-left:1rem;color:var(--muted);line-height:1.8;}
+.bss{padding-left:1.75rem;color:var(--muted);font-size:.76rem;opacity:.8;}
+
+/* INLINE HIGHLIGHTS */
+.hl{color:var(--accent);font-weight:500;}
+.hlb{color:var(--def);font-weight:500;}
+.hlg{color:var(--ex);font-weight:500;}
+.hlr{color:var(--imp);font-weight:500;}
+.hlp{color:var(--frm);font-weight:500;}
+mark{background:rgba(245,166,35,.28);color:var(--text);border-radius:2px;padding:0 1px;}
+
+ul,ol{padding-left:1.2rem;margin-bottom:.7rem;font-size:.9rem;}
+li{margin-bottom:.3rem;}
+hr{border:none;border-top:1px solid var(--border);margin:1.4rem 0;}
+
+::-webkit-scrollbar{width:4px;height:4px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
+
+@media(max-width:768px){
+  .sidebar{transform:translateX(-100%);}
+  .sidebar.open{transform:translateX(0);}
+  .main{margin-left:0;}
+  .g2,.dtg,.bsgrid{grid-template-columns:1fr;}
+  .g3{grid-template-columns:1fr 1fr;}
+  .bscol:first-child{border-right:none;border-bottom:1px solid var(--border);}
+  .content{padding:1.5rem 1rem 5rem;}
+}
+</style>
+</head>
+<body>
+<div id="pbar"></div>
+<div class="app">
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sb-head">
+    <div class="sb-title">Financial Statements<br>of a Company</div>
+    <div class="sb-sub">Corporate Accounting · BCom Hons Sem 2</div>
+  </div>
+  <nav class="toc" id="toc">
+    <a class="ti" href="#s1"><span class="tn">01</span>Introduction</a>
+    <a class="ti" href="#s2"><span class="tn">02</span>Why Make Fin. Statements</a>
+    <a class="ti" href="#s3"><span class="tn">03</span>Key Basics</a>
+    <a class="ti" href="#s4"><span class="tn">04</span>Company vs Partnership</a>
+    <a class="ti" href="#s5"><span class="tn">05</span>Components &amp; Schedule III</a>
+    <a class="ti" href="#s6"><span class="tn">06</span>5 Elements Explained</a>
+    <a class="ti" href="#s7"><span class="tn">07</span>Balance Sheet Format</a>
+    <a class="ti" href="#s8"><span class="tn">08</span>Current vs Non-Current</a>
+    <a class="ti" href="#s9"><span class="tn">09</span>Liability vs Provision vs Reserve</a>
+    <a class="ti" href="#s10"><span class="tn">10</span>Deferred Tax — DTA &amp; DTL</a>
+    <a class="ti" href="#s11"><span class="tn">11</span>Statement of P&amp;L</a>
+    <a class="ti" href="#s12"><span class="tn">12</span>CSR</a>
+    <a class="ti" href="#s13"><span class="tn">13</span>Key Terms &amp; EPS</a>
+  </nav>
+  <div class="sb-foot">
+    <div class="pl-label"><span>Reading progress</span><span id="pct">0%</span></div>
+    <div class="pl-track"><div class="pl-fill" id="pfill"></div></div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<div class="main">
+  <header class="topbar">
+    <div class="tb-title">Corporate Accounting · BCom Hons Sem 2 · Chapter Commerce (Part 1)</div>
+    <div class="tb-right">
+      <div class="search-wrap">
+        <span class="s-icon">🔍</span>
+        <input type="text" class="search" id="srch" placeholder="Search notes…">
+      </div>
+      <div class="fbtns">
+        <button class="fbtn" onclick="chFont(-1)">A−</button>
+        <button class="fbtn" onclick="chFont(1)">A+</button>
+      </div>
+      <div class="arow">
+        <div class="adot on" data-a="amber" onclick="setA('amber',this)"></div>
+        <div class="adot" data-a="blue" onclick="setA('blue',this)"></div>
+        <div class="adot" data-a="green" onclick="setA('green',this)"></div>
+        <div class="adot" data-a="purple" onclick="setA('purple',this)"></div>
+        <div class="adot" data-a="rose" onclick="setA('rose',this)"></div>
+      </div>
+      <button class="btn" id="tbtn" onclick="togTheme()">🌙 Dark</button>
+    </div>
+  </header>
+
+  <div class="content">
+
+    <!-- HERO -->
+    <div class="hero">
+      <div class="hero-tag">📚 Exam Notes — Video Transcript Based</div>
+      <h1 class="hero-title">Financial Statements<br>of a Company</h1>
+      <div class="hero-meta">
+        <span>📖 Chapter Commerce (Purnima) — Part 1</span>
+        <span>🎓 BCom Hons Sem 2 · SRCC, DU</span>
+        <span>📋 Schedule III, Companies Act</span>
+      </div>
+    </div>
+
+    <!-- S1 -->
+    <div class="section" id="s1">
+      <div class="sh" onclick="tog('b1')">
+        <span class="sn">01</span>
+        <h2 class="st">Introduction — What Are Financial Statements?</h2>
+        <button class="cbtn" id="a-b1">▼</button>
+      </div>
+      <div class="sb" id="b1">
+        <p>Every company needs to record all its transactions — how much it sold, bought, owes, and owns. For this, companies maintain <span class="hl">Books of Accounts</span> at their registered/located office. From these books, the company prepares its <span class="hl">Final Accounts / Financial Statements</span> at year-end.</p>
+
+        <div class="sub">
+          <div class="subt">Books of Accounts — What Companies Maintain</div>
+          <ul>
+            <li><strong>Cash Book</strong> — every cash transaction</li>
+            <li><strong>Purchase Book</strong> — all purchases</li>
+            <li><strong>Sales Book</strong> — all sales</li>
+            <li><strong>Bills &amp; Vouchers</strong> — supporting documents for each transaction</li>
+            <li><strong>Documents &amp; Registers</strong> — official company records</li>
+            <li><strong>Minutes</strong> — records of board/company meetings</li>
+          </ul>
+          <div class="box nte"><div class="bh">📌 Format of Records</div>Both <strong>paper</strong> and <strong>electronic form</strong> are allowed. Companies can maintain their books digitally — both are equally valid.</div>
+        </div>
+
+        <div class="sub">
+          <div class="subt">What Goes Into the Books?</div>
+          <p>Every income, every expense, every sale, every purchase, every asset the company owns, every liability it has — all of this gets recorded. The books are the raw data from which financial statements are built.</p>
+        </div>
+
+        <div class="sub">
+          <div class="subt">Cost Accounting — A Special Case</div>
+          <p>Manufacturing and Mining companies additionally do <span class="hl">Cost Accounting</span> — separately tracking costs for material, labour, and overheads. This is a separate subject (Cost Accounting) you'll study in a later semester. In this chapter, we only deal with financial accounting.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- S2 -->
+    <div class="section" id="s2">
+      <div class="sh" onclick="tog('b2')">
+        <span class="sn">02</span>
+        <h2 class="st">Why Make Financial Statements? (Objectives)</h2>
+        <button class="cbtn" id="a-b2">▼</button>
+      </div>
+      <div class="sb" id="b2">
+        <p>Financial statements are prepared for these objectives — <em>all of these can be asked in the exam as short or long answer questions.</em></p>
+        <div class="tw"><table>
+          <thead><tr><th>#</th><th>Objective</th><th>Explanation from Video</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td><strong>Know Profitability</strong></td><td>Is the company financially healthy? Making profit or suffering losses? Final accounts answer this.</td></tr>
+            <tr><td>2</td><td><strong>Investment Decisions</strong></td><td>You invest only when you're sure of future returns. Returns come from profits. Profit history (from final accounts) is your signal to invest.</td></tr>
+            <tr><td>3</td><td><strong>Future Planning</strong></td><td>Want to take on big projects or make large investments? Plan based on profit/loss data from financial statements.</td></tr>
+            <tr><td>4</td><td><strong>Loss Recovery Strategy</strong></td><td>If the company is making losses, you need a strategy to recover. Financial statements tell you where and how much.</td></tr>
+            <tr><td>5</td><td><strong>Check Efficiency</strong></td><td>Is the company working efficiently? Financial accounts show operating results and margins.</td></tr>
+            <tr><td>6</td><td><strong>Financial Transactions</strong></td><td>Before giving or taking any financial obligation (bank loans, credit lines), you need to see the accounts. Banks check your financials first!</td></tr>
+            <tr><td>7</td><td><strong>Show Resource Changes</strong></td><td>Shows all company resources and how they've changed during the year.</td></tr>
+            <tr><td>8</td><td><strong>Know Earning Potential</strong></td><td>EPS (Earnings Per Share) shows how much every share earns. This data comes from final accounts.</td></tr>
+          </tbody>
+        </table></div>
+        <div class="box imp"><div class="bh">⚠️ Exam Tip</div>Commonly tested: "State any 3/4/5 objectives of preparing financial statements." Know at least 5 with clear explanations. Don't just memorize names — understand what each means so you can write a full sentence answer.</div>
+      </div>
+    </div>
+
+    <!-- S3 -->
+    <div class="section" id="s3">
+      <div class="sh" onclick="tog('b3')">
+        <span class="sn">03</span>
+        <h2 class="st">Key Basics — Accrual, Double Entry &amp; Financial Year</h2>
+        <button class="cbtn" id="a-b3">▼</button>
+      </div>
+      <div class="sb" id="b3">
+        <div class="g2">
+          <div class="card">
+            <div class="card-t">Accrual Basis</div>
+            <p style="font-size:.85rem;">Record <strong>ALL transactions of the current year</strong> — whether cash or credit. The only condition: the transaction must <em>belong to this accounting year</em>.</p>
+            <p style="font-size:.82rem;color:var(--muted);">Cash sale of ₹10K → record it. Credit sale of ₹5K → also record it. Both belong to this year.</p>
+          </div>
+          <div class="card">
+            <div class="card-t">Double Entry System</div>
+            <p style="font-size:.85rem;">Every transaction has a <strong>dual effect</strong> — debit one account, credit another. This is why the Balance Sheet always balances.</p>
+            <p style="font-size:.82rem;color:var(--muted);">All financial statements are built on this system. Assets = Liabilities + Equity always holds.</p>
+          </div>
+        </div>
+        <div class="sub">
+          <div class="subt">Financial Year</div>
+          <div class="box nte"><div class="bh">📅 Default Financial Year</div><strong>1st April → 31st March</strong> (12 months). This is the default for all Indian companies.<br><br>Exception: If a company's transactions naturally end on 31st December (like MNCs with global reporting requirements), they can have a Jan–Dec financial year. But unless stated, always assume April 1 to March 31.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- S4 -->
+    <div class="section" id="s4">
+      <div class="sh" onclick="tog('b4')">
+        <span class="sn">04</span>
+        <h2 class="st">Company vs Partnership — Final Accounts Comparison</h2>
+        <button class="cbtn" id="a-b4">▼</button>
+      </div>
+      <div class="sb" id="b4">
+        <p>You already know Partnership Final Accounts from Financial Accounting. Here's the key difference:</p>
+        <div class="tw"><table>
+          <thead><tr><th>Partnership Firm</th><th>Company</th></tr></thead>
+          <tbody>
+            <tr><td>Trading Account</td><td><span class="hlr">Not made separately</span></td></tr>
+            <tr><td>Profit &amp; Loss Account</td><td><span class="hl">Statement of Profit &amp; Loss</span> (different format)</td></tr>
+            <tr><td>Balance Sheet (Liabilities | Assets format)</td><td><span class="hl">Balance Sheet</span> (Schedule III format — vertical)</td></tr>
+            <tr><td>—</td><td><span class="hlg">Cash Flow Statement</span></td></tr>
+            <tr><td>—</td><td><span class="hlb">Notes to Accounts</span></td></tr>
+          </tbody>
+        </table></div>
+        <div class="box nte"><div class="bh">📌 Don't Panic!</div>The underlying concepts are the same — assets, liabilities, income, expenses. What changes is only the <strong>format</strong>. You're not learning something completely new; you're learning a new way to present things you already know.</div>
+        <div class="box imp"><div class="bh">⚠️ Key Point — Schedule III</div>All formats for company financial statements are prescribed by <span class="hl">Schedule III of the Companies Act</span>. This is the law that tells companies exactly how to present their financial statements. Every format in this chapter comes from Schedule III.</div>
+      </div>
+    </div>
+
+    <!-- S5 -->
+    <div class="section" id="s5">
+      <div class="sh" onclick="tog('b5')">
+        <span class="sn">05</span>
+        <h2 class="st">Components of Financial Statements (Schedule III)</h2>
+        <button class="cbtn" id="a-b5">▼</button>
+      </div>
+      <div class="sb" id="b5">
+        <p>Companies prepare <strong>four financial statements</strong> under Schedule III. Each serves a different purpose:</p>
+        <div class="g2">
+          <div class="card">
+            <div class="card-t" style="color:var(--def);">1. Balance Sheet</div>
+            <p style="font-size:.84rem;">Shows the company's <strong>financial position</strong> on a specific date. What it owns (assets), what it owes (liabilities), and owner's stake (equity). A snapshot of the company.</p>
+          </div>
+          <div class="card">
+            <div class="card-t" style="color:var(--ex);">2. Statement of Profit &amp; Loss</div>
+            <p style="font-size:.84rem;">Also called <strong>Income Statement</strong>. Shows all income &amp; gains AND all expenses &amp; losses for the year. Tells you: is the company profitable or not?</p>
+          </div>
+          <div class="card">
+            <div class="card-t" style="color:var(--frm);">3. Cash Flow Statement</div>
+            <p style="font-size:.84rem;">Records all <strong>cash inflows</strong> (money coming in) and <strong>cash outflows</strong> (money going out) during the year. Covered in a separate chapter later.</p>
+          </div>
+          <div class="card">
+            <div class="card-t" style="color:var(--nte);">4. Notes to Accounts</div>
+            <p style="font-size:.84rem;">Detailed working notes and breakup for every item shown in the Balance Sheet. BS shows the totals; Notes show what's inside each total.</p>
+          </div>
+        </div>
+        <div class="box ex"><div class="bh">💡 Notes to Accounts — How it Works</div>Your Balance Sheet shows "Non-Current Assets: ₹5,00,000." Want to know what those assets are exactly? Come to Notes to Accounts. It gives the full breakup. The Balance Sheet is the summary; Notes are the detail. Both run side by side throughout this chapter.</div>
+      </div>
+    </div>
+
+    <!-- S6 -->
+    <div class="section" id="s6">
+      <div class="sh" onclick="tog('b6')">
+        <span class="sn">06</span>
+        <h2 class="st">The 5 Elements of Financial Statements</h2>
+        <button class="cbtn" id="a-b6">▼</button>
+      </div>
+      <div class="sb" id="b6">
+        <div class="tw"><table>
+          <thead><tr><th>Element</th><th>Where It Appears</th><th>Simple Meaning</th><th>Example from Video</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><span class="hl">Assets</span></td>
+              <td>Balance Sheet</td>
+              <td>Resources that provide <strong>future economic benefit</strong> — help earn money in future</td>
+              <td>Machinery → can produce goods → earns money → can also be sold for cash. All three = economic benefit.</td>
+            </tr>
+            <tr>
+              <td><span class="hlr">Liabilities</span></td>
+              <td>Balance Sheet</td>
+              <td><strong>Obligations</strong> (जिम्मेदारियां) to be fulfilled in future — short or long term</td>
+              <td>Borrowed ₹10L from bank → must repay = liability. Creditors gave goods on credit → you owe them = liability.</td>
+            </tr>
+            <tr>
+              <td><span class="hlb">Owner's Equity</span></td>
+              <td>Balance Sheet</td>
+              <td><strong>Residual interest</strong> — what's left in assets after settling ALL liabilities</td>
+              <td>Assets ₹50L − Liabilities ₹30L = Equity ₹20L. This ₹20L belongs to the owner.</td>
+            </tr>
+            <tr>
+              <td><span class="hlg">Income</span></td>
+              <td>P&amp;L Statement</td>
+              <td>Any <strong>increase in economic benefit</strong> — money/value coming in</td>
+              <td>Sales made → money received → income. Dividend received on investment → also income.</td>
+            </tr>
+            <tr>
+              <td><span class="hlp">Expenses</span></td>
+              <td>P&amp;L Statement</td>
+              <td>Costs incurred <strong>to earn income</strong> — within this accounting year</td>
+              <td>Paid ₹5L salary to employees who work and generate profit. Salary is the expense incurred to earn that profit.</td>
+            </tr>
+          </tbody>
+        </table></div>
+        <div class="g2">
+          <div class="box frm" style="margin:0;"><div class="bh">📐 Balance Sheet Equation</div><strong>Assets = Liabilities + Owner's Equity</strong></div>
+          <div class="box frm" style="margin:0;"><div class="bh">📐 P&amp;L Equation</div><strong>Net Profit = Income − Expenses</strong></div>
+        </div>
+        <div class="box nte" style="margin-top:.9rem;"><div class="bh">📌 Why This Matters (from the video)</div>Most students know the examples (machinery = asset, creditors = liability) but don't know the actual meaning. If someone in an interview asks "what is a liability?" — you should be able to define it in plain English, not just list examples. Learn the definitions. A BCom student should know the meaning, not just the names.</div>
+      </div>
+    </div>
+
+    <!-- S7 -->
+    <div class="section" id="s7">
+      <div class="sh" onclick="tog('b7')">
+        <span class="sn">07</span>
+        <h2 class="st">Balance Sheet Format — Complete Breakdown</h2>
+        <button class="cbtn" id="a-b7">▼</button>
+      </div>
+      <div class="sb" id="b7">
+        <div class="box nte"><div class="bh">📌 The Name Plate (Header) — Mandatory</div>Every Balance Sheet MUST start with:<br>1. The word <strong>"Balance Sheet"</strong><br>2. <strong>Company Name</strong><br>3. <strong>"As at [Date]"</strong> — e.g., "As at 31st March 2024"<br><br>Columns: Particulars | Note No. | Current Year Amount | (Previous Year Amount optional)</div>
+
+        <p>The Balance Sheet has <span class="hl">two main parts</span>. Everything goes inside one of these two:</p>
+
+        <div class="bsgrid">
+          <div class="bscol">
+            <div class="bsct">Part A — Equity &amp; Liabilities</div>
+            <div class="bsh">I. Shareholders' Fund</div>
+            <div class="bsi">(a) Share Capital</div>
+            <div class="bsi">(b) Reserves &amp; Surplus</div>
+            <div class="bsi">(c) Money Recd. Against Share Warrants</div>
+            <div class="bsh">II. Share Application Money Pending Allotment</div>
+            <div class="bsh">III. Non-Current Liabilities</div>
+            <div class="bsi">Long-term Borrowings</div>
+            <div class="bsi">Deferred Tax Liability (DTL)</div>
+            <div class="bsi">Other Long-term Liabilities</div>
+            <div class="bsi">Long-term Provisions</div>
+            <div class="bsh">IV. Current Liabilities</div>
+            <div class="bsi">Short-term Borrowings</div>
+            <div class="bsi">Trade Payables</div>
+            <div class="bsi">Other Current Liabilities</div>
+            <div class="bsi">Short-term Provisions</div>
+          </div>
+          <div class="bscol">
+            <div class="bsct">Part B — Assets</div>
+            <div class="bsh">I. Non-Current Assets</div>
+            <div class="bsi">PPE &amp; Intangible Assets</div>
+            <div class="bss">→ Property, Plant &amp; Equipment (PPE)</div>
+            <div class="bss">→ Intangible Assets</div>
+            <div class="bss">→ Capital Work in Progress</div>
+            <div class="bss">→ Intangibles Under Development</div>
+            <div class="bsi">Non-Current Investments</div>
+            <div class="bsi">Deferred Tax Assets (DTA)</div>
+            <div class="bsi">Long-term Loans &amp; Advances</div>
+            <div class="bsi">Other Non-Current Assets</div>
+            <div class="bsh">II. Current Assets</div>
+            <div class="bsi">Current Investments</div>
+            <div class="bsi">Inventories</div>
+            <div class="bsi">Trade Receivables</div>
+            <div class="bsi">Cash &amp; Cash Equivalents</div>
+            <div class="bsi">Short-term Loans &amp; Advances</div>
+            <div class="bsi">Other Current Assets</div>
+          </div>
+        </div>
+
+        <hr>
+
+        <!-- Shareholders Fund -->
+        <div class="sub">
+          <div class="subt">I. Shareholders' Fund — Sub-head (a): Share Capital</div>
+          <p>Both <strong>equity shares</strong> AND <strong>preference shares</strong> are shown here. The Share Capital note works in a sequence — each step builds on the previous:</p>
+          <div class="tw"><table>
+            <thead><tr><th>Type</th><th>Meaning</th><th>Example from Video</th></tr></thead>
+            <tbody>
+              <tr><td><span class="hl">Authorised Capital</span></td><td>The MAXIMUM limit the company is <em>permitted/authorised</em> to issue. Fixed in Memorandum of Association. You cannot exceed this.</td><td>"I am authorised to issue 2000 equity shares @ ₹100. My max = ₹2,00,000."</td></tr>
+              <tr><td><span class="hlb">Issued Capital</span></td><td>How much the company ACTUALLY issued to the public (must be ≤ Authorised)</td><td>"Out of 2000 allowed, I actually issued 1880 shares."</td></tr>
+              <tr><td><span class="hlb">Subscribed Capital</span></td><td>How much the public actually APPLIED FOR and got allotment (may be ≤ Issued)</td><td>"Public applied for 1800 shares and got them."</td></tr>
+              <tr><td><span class="hlg">Called-up Capital</span></td><td>How much of the subscribed amount the company has DEMANDED from shareholders so far (called in installments)</td><td>"Share is ₹10. I've called ₹7 so far. ₹3 will be called later."</td></tr>
+              <tr><td><span class="hlr">Paid-up Capital</span></td><td>Called-up capital MINUS Call in Arrears. What shareholders have ACTUALLY PAID.</td><td>"Called ₹7 per share. Some paid only ₹6. Arrears = ₹1. Paid-up = Called-up − ₹1."</td></tr>
+            </tbody>
+          </table></div>
+          <div class="box frm"><div class="bh">📐 Key Formula</div><strong>Paid-up Capital = Called-up Capital − Call in Arrears</strong></div>
+          <div class="box ex"><div class="bh">💡 Why Not Collect Full Price at Once?</div>Companies collect share price in <em>installments</em> — application money, allotment money, first call, second call, etc. This is easier for investors. "Call in Arrears" = the called portion that a shareholder has not yet paid. It gets subtracted from called-up to get paid-up.</div>
+        </div>
+
+        <hr>
+
+        <div class="sub">
+          <div class="subt">I. Shareholders' Fund — Sub-head (b): Reserves &amp; Surplus</div>
+          <p>All types of reserves come here. The Balance of Statement of P&amp;L (net profit carried forward) also sits here:</p>
+          <ul>
+            <li>General Reserve</li>
+            <li>WCR (Working Capital Reserve)</li>
+            <li>IFR (Investment Fluctuation Reserve)</li>
+            <li>Contingency Reserve</li>
+            <li>Capital Redemption Reserve</li>
+            <li><strong>Securities Premium Reserve</strong> ← important, see uses below</li>
+            <li>Debenture Redemption Reserve (DRR)</li>
+            <li>Revaluation Reserve</li>
+            <li>Share Option Outstanding Account</li>
+            <li><strong>Balance of Statement of P&amp;L</strong> — the net profit (or loss) carried forward lives here</li>
+          </ul>
+          <div class="box imp"><div class="bh">⚠️ Securities Premium Reserve — Permitted Uses (Exam Favourite!)</div>
+          Securities Premium is restricted — you can ONLY use it for these purposes:
+          <ol>
+            <li>Issue of <strong>Bonus Shares</strong></li>
+            <li>Writing off <strong>Preliminary Expenses</strong></li>
+            <li>Writing off <strong>Underwriting Commissions</strong></li>
+            <li>Payment of <strong>Redemption Premium</strong> on shares/debentures (premium to premium rule)</li>
+            <li>Creating <strong>Debenture Redemption Reserve</strong></li>
+            <li>Creating <strong>Revaluation Reserve</strong></li>
+            <li><strong>Share Option Outstanding Account</strong></li>
+          </ol>
+          This is tested directly — "For what purposes can Securities Premium Reserve be used?"
+          </div>
+        </div>
+
+        <hr>
+
+        <div class="sub">
+          <div class="subt">I. Shareholders' Fund — Sub-head (c): Money Received Against Share Warrants</div>
+          <div class="box def"><div class="bh">📖 Definition</div>A Share Warrant gives a shareholder the <strong>right to purchase shares at today's price at a future date</strong>. The company collects a small down payment now for locking in this right. That down payment = Money Received Against Share Warrants.</div>
+          <div class="box ex"><div class="bh">💡 Analogy (from the video)</div>Think of booking a flat or plot. You pay a booking amount today → the builder locks the property for you at today's price → later you pay the full amount and take possession. Similarly: Shareholder pays a small amount now → company locks those shares at today's price → shareholder returns later to purchase at the agreed price. That initial booking amount sitting with the company = Money Received Against Share Warrants.</div>
+        </div>
+
+        <hr>
+
+        <div class="sub">
+          <div class="subt">II. Share Application Money Pending Allotment</div>
+          <p>Application money has been received BUT shares have <span class="hlr">not yet been allotted</span>.</p>
+          <div class="box imp"><div class="bh">⚠️ Critical Rule</div>
+          <strong>Non-refundable portion</strong> → <span class="hl">Share Application Money Pending Allotment</span><br>
+          <strong>Refundable portion</strong> → <span class="hlr">Other Current Liabilities</span><br><br>
+          Logic: If we're going to return the money, it's our <em>current liability</em>. If we're keeping it (they didn't get shares but we won't refund), it sits in this separate head.
+          </div>
+        </div>
+
+        <hr>
+
+        <div class="sub">
+          <div class="subt">III. Non-Current Liabilities (Long-term: beyond 12 months)</div>
+          <div class="tw"><table>
+            <thead><tr><th>Head</th><th>What Goes Here</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Long-term Borrowings</strong></td><td>Loans, debentures, bonds that won't be repaid within 12 months / operating cycle</td></tr>
+              <tr><td><strong>Deferred Tax Liability (DTL)</strong></td><td>Tax owed to the government in the future — detailed in Section 10</td></tr>
+              <tr><td><strong>Other Long-term Liabilities</strong></td><td>Trade payables for purchase of Fixed Assets (bought machinery on credit → long-term), Provident Fund contributions, advance received for long-term contracts</td></tr>
+              <tr><td><strong>Long-term Provisions</strong></td><td>Provisions for long-term obligations — e.g., long-term warranty provisions, gratuity provisions</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+
+        <hr>
+
+        <div class="sub">
+          <div class="subt">IV. Current Liabilities (Short-term: within 12 months / operating cycle)</div>
+          <div class="tw"><table>
+            <thead><tr><th>Head</th><th>What Goes Here</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Short-term Borrowings</strong></td><td>Loans and advances to be repaid within 12 months — cash credit, bank overdraft, short-term loans</td></tr>
+              <tr><td><strong>Trade Payables</strong></td><td>Creditors (suppliers who gave goods on credit) + Bills Payable (formal credit notes/drafts)</td></tr>
+              <tr><td><strong>Other Current Liabilities</strong></td><td>Unpaid Dividend, Income Received in Advance, Interest Accrued, Calls in Advance, Interest Due on Borrowings, Refundable Application Money</td></tr>
+              <tr><td><strong>Short-term Provisions</strong></td><td>Provisions for obligations within 12 months — provision for tax, provision for bad debts, proposed dividend (as per new rules)</td></tr>
+            </tbody>
+          </table></div>
+          <div class="box nte"><div class="bh">🧠 Memory Trick (Directly from the Video!)</div>
+          Non-Current and Current Liabilities are <strong>mirror images</strong> of each other:<br><br>
+          Long-term Borrowings ↔ Short-term Borrowings<br>
+          Other LT Liabilities ↔ Other Current Liabilities<br>
+          Long-term Provisions ↔ Short-term Provisions<br>
+          (Only change: DTL in non-current, Trade Payables in current)<br><br>
+          <strong>Memorise the Non-Current heads → Current heads follow automatically!</strong>
+          </div>
+        </div>
+
+        <hr>
+
+        <div class="sub">
+          <div class="subt">Part B — I. Non-Current Assets</div>
+          <p><strong>(a) PPE &amp; Intangible Assets</strong> — Four sub-heads:</p>
+          <div class="tw"><table>
+            <thead><tr><th>Sub-head</th><th>Meaning</th><th>Examples</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Property, Plant &amp; Equipment (PPE)</strong></td><td>Tangible assets — you can SEE and TOUCH them. Physical existence present.</td><td>Land, Building, Machinery, Equipment, Computers, Vehicles</td></tr>
+              <tr><td><strong>Intangible Assets</strong></td><td>No physical existence — cannot see or touch. But have real economic value.</td><td>Goodwill, Trademark, Patents, Copyrights, Software licenses</td></tr>
+              <tr><td><strong>Capital Work in Progress (CWIP)</strong></td><td>PPE that is STILL UNDER CONSTRUCTION — work not yet complete, not yet ready to use as a productive asset</td><td>Building under construction, machinery being installed, plant being set up</td></tr>
+              <tr><td><strong>Intangible Assets Under Development</strong></td><td>Intangible assets still being developed or processed — not yet complete or usable</td><td>Patent application in process, internally developed software being built</td></tr>
+            </tbody>
+          </table></div>
+          <p><strong>(b) Non-Current Investments</strong> — Long-term investments: equity/bonds of other companies held for strategic reasons, real estate held for investment, etc.</p>
+          <p><strong>(c) Deferred Tax Assets (DTA)</strong> — Covered in full detail in Section 10.</p>
+          <p><strong>(d) Long-term Loans &amp; Advances</strong> — Two types:</p>
+          <div class="g2">
+            <div class="card">
+              <div class="card-t">Capital Advances</div>
+              <p style="font-size:.83rem;">Advance given for the purchase of a Fixed Asset (PPE).</p>
+              <p style="font-size:.83rem;"><strong>Repayment comes as an ASSET, not cash.</strong></p>
+              <p style="font-size:.78rem;color:var(--muted);">Example: Paid ₹5L advance to get a machine later → when the machine arrives = the advance is settled in asset form, not cash.</p>
+            </div>
+            <div class="card">
+              <div class="card-t">Other LT Loans &amp; Advances</div>
+              <p style="font-size:.83rem;">Long-term but <strong>repaid in CASH</strong> (not as assets).</p>
+              <p style="font-size:.83rem;">These include long-term deposits given, staff advances, etc.</p>
+            </div>
+          </div>
+          <p><strong>(e) Other Non-Current Assets</strong> — Long-term receivables, security deposits, unamortized losses/expenses — anything long-term that doesn't fit the above categories.</p>
+        </div>
+
+        <hr>
+
+        <div class="sub">
+          <div class="subt">Part B — II. Current Assets</div>
+          <p>Short-term assets — expected to be converted to cash or consumed within 12 months / operating cycle.</p>
+          <div class="tw"><table>
+            <thead><tr><th>Head</th><th>What Goes Here</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Current Investments</strong></td><td>Short-term investments — held for less than 12 months. Mutual funds, short-term bonds, etc.</td></tr>
+              <tr><td><strong>Inventories</strong></td><td>Stock held for resale / trade. Raw material, Work in Progress (WIP), Finished Goods, Stock-in-Trade — anything you bought to sell.</td></tr>
+              <tr><td><strong>Trade Receivables</strong></td><td>Debtors (customers who owe you for credit sales) + Bills Receivable (formal credit instruments receivable from customers)</td></tr>
+              <tr><td><strong>Cash &amp; Cash Equivalents</strong></td><td>Cash in hand, Bank balance, Marketable securities, Demand drafts, Cheques — <em>anything you can IMMEDIATELY convert to cash</em></td></tr>
+              <tr><td><strong>Short-term Loans &amp; Advances</strong></td><td>Loans given that will be recovered within 12 months; prepaid expenses; advance tax paid</td></tr>
+              <tr><td><strong>Other Current Assets</strong></td><td>Anything short-term that doesn't fit any of the above categories — accrued income, etc.</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- S8 -->
+    <div class="section" id="s8">
+      <div class="sh" onclick="tog('b8')">
+        <span class="sn">08</span>
+        <h2 class="st">Current vs Non-Current — Operating Cycle Explained</h2>
+        <button class="cbtn" id="a-b8">▼</button>
+      </div>
+      <div class="sb" id="b8">
+        <div class="box def"><div class="bh">📖 Operating Cycle (Definition)</div>The time period between <strong>acquiring an asset</strong> → processing/using it → <strong>converting back into Cash or Cash Equivalents</strong>.<br><br>This is the natural business rhythm. How long does one full business cycle take?</div>
+        <div class="box ex"><div class="bh">💡 Example</div>A bakery: Buy flour (acquire asset) → Make bread (process) → Sell bread and collect cash (realize) = one complete operating cycle. Could be a few days, a few months, or over a year depending on the nature of the business.</div>
+        <div class="tw"><table>
+          <thead><tr><th>Type</th><th>Timeframe</th><th>If Not Mentioned in Question</th></tr></thead>
+          <tbody>
+            <tr><td><span class="hl">Current</span></td><td>Settled/realized within operating cycle OR 12 months — whichever comes first</td><td rowspan="2" style="vertical-align:middle;font-weight:600;color:var(--accent);">Assume <strong>12 months</strong> as the operating cycle default</td></tr>
+            <tr><td><span class="hlr">Non-Current</span></td><td>Everything that is NOT current — beyond the operating cycle / 12 months</td></tr>
+          </tbody>
+        </table></div>
+        <div class="box imp"><div class="bh">⚠️ Exam Strategy (from the video)</div>Just identify what is <strong>CURRENT</strong>. Everything else automatically becomes <strong>NON-CURRENT</strong>.<br><br>If the question gives an operating cycle (e.g., "operating cycle is 8 months") → use that as your cutoff.<br>If NOT given → assume 12 months. This is a key decision point in classification questions.</div>
+      </div>
+    </div>
+
+    <!-- S9 -->
+    <div class="section" id="s9">
+      <div class="sh" onclick="tog('b9')">
+        <span class="sn">09</span>
+        <h2 class="st">Liability vs Provision vs Reserve — The Differences</h2>
+        <button class="cbtn" id="a-b9">▼</button>
+      </div>
+      <div class="sb" id="b9">
+        <p>This is a <span class="hlr">commonly confused topic</span>. All three involve setting aside money for future needs, but they differ in one key way:</p>
+        <div class="tw"><table>
+          <thead><tr><th>Feature</th><th style="color:var(--def);">Liability</th><th style="color:var(--ex);">Provision</th><th style="color:var(--nte);">Reserve</th></tr></thead>
+          <tbody>
+            <tr><td>Know you have to pay?</td><td>✅ Yes</td><td>✅ Yes</td><td>⚠️ General safety</td></tr>
+            <tr><td>Know the EXACT amount?</td><td>✅ Yes (certain)</td><td>❌ No (estimated)</td><td>❌ No</td></tr>
+            <tr><td>Know the reason/cause?</td><td>✅ Yes — specific</td><td>✅ Yes — specific cause, unknown amount</td><td>❌ No specific reason — general</td></tr>
+            <tr><td>Source</td><td>Regular business obligation</td><td>From profit (charge against profit)</td><td>From profit (appropriation of profit)</td></tr>
+            <tr><td>Example</td><td>Salary payable ₹20,000 — exact amount, exact obligation</td><td>Provision for bad debts — know some debtors will default, not how much exactly</td><td>General Reserve — saving profits "just in case" for the future</td></tr>
+          </tbody>
+        </table></div>
+        <div class="g2">
+          <div class="box def" style="margin:0;"><div class="bh">📖 Liability (short)</div>You <strong>KNOW</strong> you have to pay AND you <strong>KNOW EXACTLY HOW MUCH</strong>. Both cause and amount are certain.</div>
+          <div class="box def" style="margin:0;"><div class="bh">📖 Provision (short)</div>You <strong>KNOW WHAT</strong> it's for (specific cause). But you <strong>DON'T KNOW HOW MUCH</strong>. Cause certain, amount uncertain → estimate it.</div>
+        </div>
+        <div class="box nte" style="margin-top:.9rem;"><div class="bh">📌 Reserve vs Provision</div><strong>Reserve:</strong> Don't even know exactly what you're saving for. Just setting aside profits for general future safety or unexpected losses. Neither cause nor amount is certain.<br><br><strong>Provision:</strong> You KNOW the specific reason/cause. You just DON'T KNOW the exact amount. You estimate it.<br><br>Both come from profits. The distinction is the specificity of the cause.</div>
+      </div>
+    </div>
+
+    <!-- S10 -->
+    <div class="section" id="s10">
+      <div class="sh" onclick="tog('b10')">
+        <span class="sn">10</span>
+        <h2 class="st">Deferred Tax — DTA &amp; DTL (Full Concept + Examples)</h2>
+        <button class="cbtn" id="a-b10">▼</button>
+      </div>
+      <div class="sb" id="b10">
+        <p>This is one of the <span class="hlr">trickier concepts</span> in this chapter. Take it step by step — it's not as hard as it looks.</p>
+        <div class="box def"><div class="bh">📖 The Core Idea — Two Types of Income</div>
+        <strong>Accounting Income</strong> — Income recorded in your Books of Accounts (as per accounting rules like GAAP/Ind AS)<br>
+        <strong>Taxable Income</strong> — Income calculated as per Income Tax Law (tax rules, Income Tax Act)<br><br>
+        These two can be <strong>different</strong> from each other. The difference between them = <span class="hl">Deferred Tax</span>.<br><br>
+        "Deferred" means postponed/pushed to later. The tax effect is being deferred to the future.
+        </div>
+
+        <div class="dtg">
+          <div class="dtc liab">
+            <div class="dtbadge">Case 1: Deferred Tax Liability (DTL)</div>
+            <p><strong>Condition:</strong> Accounting Income &gt; Taxable Income</p>
+            <p><strong>What happened:</strong> Earned more but showed less to tax → paid LESS tax than you should have</p>
+            <p><strong>Result:</strong> You OWE the government more tax in future → <span class="hlr">LIABILITY</span></p>
+            <div class="dtex">
+              Accounting Income = ₹20L → Tax@40% = ₹8L<br>
+              Taxable Income &nbsp; = ₹15L → Tax@40% = ₹6L<br>
+              ─────────────────────────────────────<br>
+              <span style="color:var(--imp);font-weight:700;">DTL = ₹8L − ₹6L = ₹2 lakh</span><br>
+              (Under-paid by ₹2L → owe govt)
+            </div>
+            <p style="font-size:.77rem;margin-top:.6rem;"><strong>Journal Entry:</strong><br>Dr. Profit &amp; Loss A/c &nbsp; ₹2L<br>Cr. Deferred Tax Liability ₹2L</p>
+          </div>
+          <div class="dtc asset">
+            <div class="dtbadge">Case 2: Deferred Tax Asset (DTA)</div>
+            <p><strong>Condition:</strong> Taxable Income &gt; Accounting Income</p>
+            <p><strong>What happened:</strong> Showed more income to tax authorities → paid MORE tax than needed</p>
+            <p><strong>Result:</strong> Government OWES you a refund in future → <span class="hlg">ASSET</span></p>
+            <div class="dtex">
+              Accounting Income = ₹15L → Tax@40% = ₹6L<br>
+              Taxable Income &nbsp; = ₹20L → Tax@40% = ₹8L<br>
+              ─────────────────────────────────────<br>
+              <span style="color:var(--ex);font-weight:700;">DTA = ₹8L − ₹6L = ₹2 lakh</span><br>
+              (Over-paid by ₹2L → govt owes you)
+            </div>
+          </div>
+        </div>
+
+        <div class="box frm"><div class="bh">📐 Simple Memory Rule</div>
+        <strong>Give extra tax to government in future → DTL (Non-Current Liability)</strong><br>
+        <strong>Government gives extra tax back to you → DTA (Non-Current Asset)</strong>
+        </div>
+        <div class="box nte"><div class="bh">📌 Where They Appear in Balance Sheet</div>DTL → Under <strong>Non-Current Liabilities</strong> (Equity &amp; Liabilities side)<br>DTA → Under <strong>Non-Current Assets</strong> (Assets side)</div>
+      </div>
+    </div>
+
+    <!-- S11 -->
+    <div class="section" id="s11">
+      <div class="sh" onclick="tog('b11')">
+        <span class="sn">11</span>
+        <h2 class="st">Statement of Profit &amp; Loss — Complete Format</h2>
+        <button class="cbtn" id="a-b11">▼</button>
+      </div>
+      <div class="sb" id="b11">
+        <div class="box nte"><div class="bh">📌 The Name Plate (Header)</div>1. "Statement of Profit &amp; Loss"<br>2. Company Name<br>3. <strong>"For the year ended [date]"</strong> — Note: P&amp;L says "For the year ended" (NOT "As at" like the Balance Sheet)</div>
+
+        <div class="fblock">
+<span class="hl">I.   Revenue from Operations</span>   <span class="dm">← Sales + other operating revenue (daily business)</span>
+<span class="hl">+ II. Other Income</span>              <span class="dm">← Dividends received, profit on sale of investments, rent received</span>
+<span class="dm">─────────────────────────────────────────────────────────────────</span>
+<span class="hl">= III. Total Revenue</span>             <span class="dm">← I + II</span>
+
+<span class="hl">− IV. Expenses:</span>
+  <span class="dm">1. Cost of Materials Consumed       ← Raw materials used in production</span>
+  <span class="dm">2. Purchases of Stock-in-Trade      ← Goods bought for resale (trading)</span>
+  <span class="dm">3. Changes in Inventories           ← Opening Stock − Closing Stock</span>
+  <span class="dm">4. Employee Benefit Expenses        ← Salary, Wages, PF, Staff welfare, Canteen</span>
+  <span class="dm">5. Finance Costs                    ← Interest on loans/debentures, Forex loss</span>
+  <span class="dm">6. Depreciation &amp; Amortization      ← On PPE and intangibles</span>
+  <span class="dm">7. Other Expenses                   ← Manufacturing, admin, selling expenses</span>
+<span class="dm">─────────────────────────────────────────────────────────────────</span>
+<span class="hl">= V.  Profit Before Exceptional Items &amp; Tax</span>
+
+<span class="hl">− VI. Exceptional / Extraordinary Items</span>   <span class="dm">← Flood, earthquake, fire losses</span>
+<span class="dm">─────────────────────────────────────────────────────────────────</span>
+<span class="hl">= VII. Profit Before Tax</span>
+
+<span class="hl">− VIII. Tax</span>                            <span class="dm">← Current Tax ± Deferred Tax (DTA/DTL)</span>
+<span class="dm">─────────────────────────────────────────────────────────────────</span>
+<span class="rs">= IX. PROFIT AFTER TAX (Net Profit)</span>
+
+<span class="hl">X.  Earnings Per Share (EPS)</span>           <span class="dm">= Net Profit ÷ Number of Shares</span>
+        </div>
+
+        <div class="sub">
+          <div class="subt">Detailed Breakdown of Each Line Item</div>
+          <div class="tw"><table>
+            <thead><tr><th>Line Item</th><th>Detailed Explanation</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Revenue from Operations</strong></td><td>Sales revenue (main business activity). Revenue from services rendered. Other operating revenue directly tied to daily operations.</td></tr>
+              <tr><td><strong>Other Income</strong></td><td>Dividend received on investments, Profit on sale of investments or assets, Rent received, Interest earned on deposits, foreign exchange gains — anything NOT from main day-to-day operations.</td></tr>
+              <tr><td><strong>Changes in Inventories</strong></td><td>Formula: Opening Stock − Closing Stock. If opening &gt; closing, you consumed/sold more inventory = cost increases. If closing &gt; opening = you accumulated stock = cost reduces. Covers WIP, Finished Goods, Stock-in-Trade.</td></tr>
+              <tr><td><strong>Employee Benefit Expenses</strong></td><td>Salaries, Wages, Bonus, Provident Fund (PF) contributions, Staff welfare expenses, Canteen expenses — <em>everything spent on employees</em>.</td></tr>
+              <tr><td><strong>Finance Costs</strong></td><td>Interest on debentures, Interest on loans/borrowings, Cost of raising funds (processing fees, bank charges), Foreign currency transaction losses on borrowings.</td></tr>
+              <tr><td><strong>Depreciation &amp; Amortization</strong></td><td>Depreciation on PPE (tangible fixed assets). Amortization of intangible assets (goodwill, patents written off over useful life).</td></tr>
+              <tr><td><strong>Exceptional Items</strong></td><td>Not day-to-day but not completely unforeseeable either. Company-specific events — major restructuring costs, significant write-offs. <em>Unusual but somewhat predictable.</em></td></tr>
+              <tr><td><strong>Extraordinary Items</strong></td><td>"Acts of God" — completely unforeseeable, rare events: flood damage, earthquake loss, fire loss, tsunami. You could NOT have predicted these. They are deducted separately for clarity.</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+
+        <div class="sub">
+          <div class="subt">Earnings Per Share (EPS)</div>
+          <div class="box frm"><div class="bh">📐 Basic EPS Formula</div><strong>Basic EPS = Net Profit After Tax ÷ Weighted Average Number of Shares</strong><br><br>Answers: "For every share, how much did the company earn this year?"<br>Higher EPS = more earning per share = company doing well = more attractive to investors.</div>
+          <div class="box def"><div class="bh">📖 Basic EPS</div>Calculated for a specific financial period WITHOUT considering any special obligations like convertible instruments. It's the plain, straightforward EPS — no complex adjustments. This is what you'll mostly work with in this course.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- S12 -->
+    <div class="section" id="s12">
+      <div class="sh" onclick="tog('b12')">
+        <span class="sn">12</span>
+        <h2 class="st">Corporate Social Responsibility (CSR)</h2>
+        <button class="cbtn" id="a-b12">▼</button>
+      </div>
+      <div class="sb" id="b12">
+        <div class="box def"><div class="bh">📖 What is CSR?</div>CSR makes companies <strong>socially responsible</strong>. They can't just operate for their own profit — they must contribute to society's welfare too. As Purnima put it: "कब तक अपना ही अपना करोगे? थोड़ा सा सोसाइटी के लिए भी करना बनता है।"</div>
+
+        <div class="sub">
+          <div class="subt">Which Companies Must Follow CSR? (Any ONE triggers it)</div>
+          <div class="g3">
+            <div class="card" style="text-align:center;">
+              <div class="card-t">Net Worth</div>
+              <div style="font-size:1.5rem;font-weight:600;color:var(--accent);">₹500 Cr</div>
+              <div style="font-size:.73rem;color:var(--muted);">or more</div>
+            </div>
+            <div class="card" style="text-align:center;">
+              <div class="card-t">Turnover</div>
+              <div style="font-size:1.5rem;font-weight:600;color:var(--accent);">₹1000 Cr</div>
+              <div style="font-size:.73rem;color:var(--muted);">or more</div>
+            </div>
+            <div class="card" style="text-align:center;">
+              <div class="card-t">Net Profit</div>
+              <div style="font-size:1.5rem;font-weight:600;color:var(--accent);">₹5 Cr</div>
+              <div style="font-size:.73rem;color:var(--muted);">or more</div>
+            </div>
+          </div>
+          <div class="box nte"><div class="bh">📌 Meeting ANY ONE is enough</div>You don't need to meet all three. If your net profit crosses ₹5 Cr even if your turnover is only ₹200 Cr — CSR still applies.</div>
+        </div>
+
+        <div class="sub">
+          <div class="subt">How Much Must Be Spent?</div>
+          <div class="box frm"><div class="bh">📐 CSR Spending Formula</div><strong>2% of Average Net Profit of Last 3 Years</strong><br><br>Step 1: Add up net profits of the last 3 years → divide by 3 = average net profit<br>Step 2: Take 2% of that average<br>Step 3: Spend on approved social welfare activities<br><br><strong>If NOT spent:</strong> Must <em>disclose the reason</em> in the Annual Report. Cannot just skip without explanation.</div>
+        </div>
+
+        <div class="sub">
+          <div class="subt">CSR Committee — Composition &amp; Duties</div>
+          <div class="tw"><table>
+            <thead><tr><th>Aspect</th><th>Requirement</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Minimum Members</strong></td><td><strong>3 Directors</strong> (can be more)</td></tr>
+              <tr><td><strong>Independent Director</strong></td><td>At least <strong>1 Independent Director</strong> must be part of the committee — mandatory</td></tr>
+              <tr><td><strong>Duty 1</strong></td><td>Formulate the company's CSR Policy</td></tr>
+              <tr><td><strong>Duty 2</strong></td><td>Recommend the amount to be spent on CSR activities</td></tr>
+              <tr><td><strong>Duty 3</strong></td><td>Monitor CSR activities regularly</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+
+        <div class="sub">
+          <div class="subt">How Is CSR Implemented?</div>
+          <ul>
+            <li>Through <strong>Trusts</strong></li>
+            <li>Through <strong>Societies</strong></li>
+            <li>Through <strong>Section 8 Companies</strong> — these are charitable/non-profit companies registered under Section 8 of the Companies Act</li>
+          </ul>
+        </div>
+
+        <div class="sub">
+          <div class="subt">CSR Activities — Examples from the Video</div>
+          <div class="g3">
+            <div class="card" style="font-size:.82rem;text-align:center;padding:.7rem;">Eradicating poverty</div>
+            <div class="card" style="font-size:.82rem;text-align:center;padding:.7rem;">Tackling hunger</div>
+            <div class="card" style="font-size:.82rem;text-align:center;padding:.7rem;">Providing education</div>
+            <div class="card" style="font-size:.82rem;text-align:center;padding:.7rem;">Women empowerment</div>
+            <div class="card" style="font-size:.82rem;text-align:center;padding:.7rem;">Child health</div>
+            <div class="card" style="font-size:.82rem;text-align:center;padding:.7rem;">Fighting diseases</div>
+            <div class="card" style="font-size:.82rem;text-align:center;padding:.7rem;">Environment protection</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- S13 -->
+    <div class="section" id="s13">
+      <div class="sh" onclick="tog('b13')">
+        <span class="sn">13</span>
+        <h2 class="st">Key Terms — Divisible Profit, Surplus, Dividend &amp; EPS</h2>
+        <button class="cbtn" id="a-b13">▼</button>
+      </div>
+      <div class="sb" id="b13">
+
+        <div class="sub">
+          <div class="subt">Divisible Profit</div>
+          <div class="box def"><div class="bh">📖 Definition</div>After deducting all expenses, losses, depreciation from total profit AND after setting aside required reserves — the <strong>remaining amount that can actually be distributed</strong> to shareholders = Divisible Profit.<br><br>Simply: "The profit you're legally and actually allowed to give out to shareholders."</div>
+        </div>
+
+        <div class="sub">
+          <div class="subt">Surplus</div>
+          <div class="box def"><div class="bh">📖 Definition</div>The balance remaining after ALL adjustments in the Reserves &amp; Surplus account for the year. The company then decides: how much to keep in reserves (retain) and how much to distribute as dividend.<br><br>Surplus tells you: "What's left after everything is accounted for — now what do we do with it?"</div>
+        </div>
+
+        <div class="sub">
+          <div class="subt">Reserve &amp; Surplus — How to Calculate</div>
+          <div class="fblock">
+<span class="hl">Opening Balance of Reserves &amp; Surplus</span>
+<span class="hl">+ Net Profit for the year</span>
+<span class="hl">± Prior Period Adjustments / Corrections</span>   <span class="dm">← errors from past years corrected</span>
+<span class="hl">− Transfer to General Reserve</span>              <span class="dm">← company's choice (no fixed % now)</span>
+<span class="hl">− Interim Dividend already paid</span>
+<span class="dm">─────────────────────────────────────────</span>
+<span class="rs">= Closing Balance of Reserves &amp; Surplus</span>   <span class="dm">← shown in Balance Sheet</span>
+          </div>
+          <div class="box imp"><div class="bh">⚠️ Rule Change — Transfer to Reserve</div><strong>Old rule:</strong> Companies HAD to transfer a fixed percentage of profits to reserves mandatorily.<br><strong>New rule (current):</strong> No fixed rule. Company can CHOOSE whether to transfer to reserves or not. Completely optional now. This is a common exam question!</div>
+        </div>
+
+        <div class="sub">
+          <div class="subt">Dividend Tax — Important Rule Change</div>
+          <div class="box imp"><div class="bh">⚠️ Major Rule Change (Exam Favourite!)</div><strong>Old rule:</strong> Company paid Dividend Distribution Tax (DDT) when it declared dividends.<br><strong>New rule (current):</strong> <span class="hlr">SHAREHOLDERS pay the dividend tax</span> on dividends they receive — not the company.<br><br>This is frequently tested. Know both the old and new rule!</div>
+        </div>
+
+        <div class="sub">
+          <div class="subt">Types of Dividend</div>
+          <div class="g2">
+            <div class="card">
+              <div class="card-t" style="color:var(--imp);">Interim Dividend</div>
+              <p style="font-size:.84rem;">Paid <strong>BEFORE</strong> year-end annual profit is officially declared.</p>
+              <p style="font-size:.83rem;">Mid-year distribution — like an advance on expected dividends. Based on estimated current-year profits.</p>
+              <p style="font-size:.78rem;color:var(--muted);">Declared by the Board of Directors alone (no shareholder approval needed).</p>
+              <p style="font-size:.8rem;"><strong>In accounts:</strong> Deducted from Surplus — treated as paid in current year itself.</p>
+            </div>
+            <div class="card">
+              <div class="card-t" style="color:var(--ex);">Proposed Dividend</div>
+              <p style="font-size:.84rem;">Declared <strong>AT YEAR-END</strong> from current year's final profits.</p>
+              <p style="font-size:.83rem;">Proposed by Board of Directors → must be approved at the Annual General Meeting (AGM).</p>
+              <p style="font-size:.78rem;color:var(--muted);">As per revised AS rules: treated as a contingent liability — goes to next year's accounts after AGM approval.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="sub">
+          <div class="subt">Earnings Per Share (EPS) — Full Picture</div>
+          <div class="box frm"><div class="bh">📐 Basic EPS Formula</div><strong>Basic EPS = Net Profit After Tax ÷ Weighted Average Number of Shares</strong><br><br>Answers: "For every one share of this company, how much profit was earned this year?"<br><br>Investors use EPS to compare companies and gauge earning potential. Higher EPS = better return per share = stronger investment case.</div>
+          <div class="box nte"><div class="bh">📌 Why EPS Matters (from the video)</div>EPS is one of the most important numbers for investors. Before investing, they check EPS to understand earning potential. If EPS is good, they invest. If EPS is growing year on year, even better. Your financial statements reveal this EPS figure.</div>
+        </div>
+
+        <hr>
+
+        <div class="sub">
+          <div class="subt">🗂️ Full Balance Sheet Quick Reference Tree</div>
+          <div class="tree">
+<span class="hd">BALANCE SHEET</span>
+│
+├── <span class="h1">EQUITY &amp; LIABILITIES (Part A)</span>
+│   ├── Shareholders' Fund
+│   │   ├── <span class="h2">Share Capital</span> [Auth → Issued → Subscribed → Called-up → Paid-up]
+│   │   ├── <span class="h2">Reserves &amp; Surplus</span> [All reserves + P&amp;L balance]
+│   │   └── <span class="h2">Money Recd. Against Share Warrants</span>
+│   ├── Share Application Money Pending Allotment [non-refundable portion only]
+│   ├── Non-Current Liabilities
+│   │   ├── Long-term Borrowings
+│   │   ├── Deferred Tax Liability (DTL)
+│   │   ├── Other Long-term Liabilities
+│   │   └── Long-term Provisions
+│   └── Current Liabilities
+│       ├── Short-term Borrowings
+│       ├── Trade Payables [Creditors + Bills Payable]
+│       ├── Other Current Liabilities [Unpaid div, income in advance, etc.]
+│       └── Short-term Provisions
+│
+└── <span class="h1">ASSETS (Part B)</span>
+    ├── Non-Current Assets
+    │   ├── PPE &amp; Intangible Assets
+    │   │     ├── Property Plant &amp; Equipment (tangible — land, building, machinery)
+    │   │     ├── Intangible Assets (goodwill, patents, trademark)
+    │   │     ├── Capital Work in Progress (PPE under construction)
+    │   │     └── Intangibles Under Development
+    │   ├── Non-Current Investments
+    │   ├── Deferred Tax Assets (DTA)
+    │   ├── Long-term Loans &amp; Advances
+    │   └── Other Non-Current Assets
+    └── Current Assets
+        ├── Current Investments
+        ├── Inventories (stock for resale)
+        ├── Trade Receivables [Debtors + Bills Receivable]
+        ├── Cash &amp; Cash Equivalents [cash, bank, instantly-liquid items]
+        ├── Short-term Loans &amp; Advances
+        └── Other Current Assets
+          </div>
+        </div>
+
+        <hr>
+
+        <div class="sub">
+          <div class="subt">📋 Key Numbers to Remember for Exams</div>
+          <div class="tw"><table>
+            <thead><tr><th>Fact</th><th>Number / Rule</th></tr></thead>
+            <tbody>
+              <tr><td>Default Financial Year</td><td>1st April → 31st March</td></tr>
+              <tr><td>Default Operating Cycle (if not given)</td><td>12 months</td></tr>
+              <tr><td>CSR: Net Worth threshold</td><td>₹500 crore or more</td></tr>
+              <tr><td>CSR: Turnover threshold</td><td>₹1000 crore or more</td></tr>
+              <tr><td>CSR: Net Profit threshold</td><td>₹5 crore or more</td></tr>
+              <tr><td>CSR: Amount to spend</td><td>2% of Average Net Profit of Last 3 Years</td></tr>
+              <tr><td>CSR Committee: Minimum directors</td><td>3 (at least 1 must be independent)</td></tr>
+              <tr><td>Who pays Dividend Tax (new rule)</td><td>Shareholders (not the company)</td></tr>
+              <tr><td>Transfer to Reserve (new rule)</td><td>Optional — no fixed %</td></tr>
+              <tr><td>DTL appears in Balance Sheet under</td><td>Non-Current Liabilities</td></tr>
+              <tr><td>DTA appears in Balance Sheet under</td><td>Non-Current Assets</td></tr>
+              <tr><td>All formats prescribed by</td><td>Schedule III, Companies Act</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- .content -->
+</div><!-- .main -->
+</div><!-- .app -->
+
+<script>
+// Theme
+let dark=true;
+function togTheme(){dark=!dark;document.documentElement.setAttribute('data-theme',dark?'dark':'light');document.getElementById('tbtn').textContent=dark?'🌙 Dark':'☀️ Light';}
+
+// Accent
+function setA(a,el){if(a==='amber'){document.documentElement.removeAttribute('data-accent');}else{document.documentElement.setAttribute('data-accent',a);}document.querySelectorAll('.adot').forEach(d=>d.classList.remove('on'));el.classList.add('on');}
+
+// Font size
+let fs=15;
+function chFont(d){fs=Math.max(12,Math.min(20,fs+d));document.body.style.fontSize=fs+'px';}
+
+// Collapse/Expand sections
+document.querySelectorAll('.sb').forEach(b=>{b.style.maxHeight=b.scrollHeight+'px';});
+function tog(id){
+  const b=document.getElementById(id),a=document.getElementById('a-'+id);
+  if(b.classList.contains('shut')){
+    b.classList.remove('shut');
+    b.style.maxHeight=(b.scrollHeight+600)+'px';
+    if(a)a.style.transform='rotate(0deg)';
+  } else {
+    b.classList.add('shut');
+    if(a)a.style.transform='rotate(-90deg)';
+  }
+}
+
+// Reading progress bar
+const pb=document.getElementById('pbar'),pf=document.getElementById('pfill'),pp=document.getElementById('pct');
+window.addEventListener('scroll',()=>{
+  const s=window.scrollY,h=document.documentElement.scrollHeight-window.innerHeight;
+  const p=h>0?Math.round(s/h*100):0;
+  pb.style.width=p+'%';pf.style.width=p+'%';pp.textContent=p+'%';
+});
+
+// Active TOC highlighting
+const secs=document.querySelectorAll('.section'),tis=document.querySelectorAll('.ti');
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const id=e.target.id;
+      tis.forEach(t=>t.classList.toggle('active',t.getAttribute('href')==='#'+id));
+    }
+  });
+},{rootMargin:'-15% 0px -60% 0px'});
+secs.forEach(s=>obs.observe(s));
+
+// TOC smooth scroll + auto-open collapsed section
+tis.forEach(t=>{
+  t.addEventListener('click',e=>{
+    e.preventDefault();
+    const el=document.querySelector(t.getAttribute('href'));
+    if(el){
+      el.scrollIntoView({behavior:'smooth'});
+      const sb=el.querySelector('.sb');
+      if(sb&&sb.classList.contains('shut')){
+        const id=sb.id,a=document.getElementById('a-'+id);
+        sb.classList.remove('shut');
+        sb.style.maxHeight=(sb.scrollHeight+600)+'px';
+        if(a)a.style.transform='rotate(0deg)';
+      }
+    }
+  });
+});
+
+// Search & highlight
+const si=document.getElementById('srch');
+function rmMarks(){
+  document.querySelectorAll('mark').forEach(m=>{
+    m.parentNode.replaceChild(document.createTextNode(m.textContent),m);
+  });
+  document.querySelectorAll('.content').forEach(el=>el.normalize());
+}
+function hlNode(n,q){
+  if(n.nodeType===3){
+    const i=n.textContent.toLowerCase().indexOf(q.toLowerCase());
+    if(i>=0){
+      const m=document.createElement('mark');
+      const after=n.splitText(i);
+      after.splitText(q.length);
+      m.appendChild(after.cloneNode(true));
+      after.parentNode.replaceChild(m,after);
+    }
+  } else if(n.nodeType===1&&!/^(script|style|mark)$/i.test(n.tagName)){
+    Array.from(n.childNodes).forEach(c=>hlNode(c,q));
+  }
+}
+si.addEventListener('input',()=>{
+  const v=si.value.trim();
+  rmMarks();
+  if(v.length>=2){
+    document.querySelectorAll('.content').forEach(el=>hlNode(el,v));
+    const first=document.querySelector('mark');
+    if(first)first.scrollIntoView({behavior:'smooth',block:'center'});
+  }
+});
+</script>
+</body>
+</html>
